@@ -1340,7 +1340,7 @@ function Editor({ state, sel, setSel, update }) {
   );
 }
 
-function ActionBar({ editing, drawerOpen, dirty, firstPublish, publishing, unreachable, loadedOk, onPublish, onDiscard, onLock, onVersions, onBackup, author, setAuthor }) {
+function ActionBar({ editing, drawerOpen, dirty, firstPublish, publishing, unreachable, loadedOk, onPublish, onDiscard, onLock, onVersions, onBackup, onReset, author, setAuthor }) {
   if (!editing) return null;
   return (
     <div className={cls("abar", drawerOpen && "narrow")}>
@@ -1355,6 +1355,7 @@ function ActionBar({ editing, drawerOpen, dirty, firstPublish, publishing, unrea
         <input value={author} onChange={(e) => setAuthor(e.target.value)} placeholder="Your name" style={{ width: 130, background: "transparent", color: "var(--creme)", borderColor: "var(--hairDark)", borderRadius: 999, padding: "8px 12px" }} />
         <button className="btn ghost sm" onClick={onBackup}><Download size={13} />Backup</button>
         <button className="btn ghost sm" onClick={onVersions}><History size={13} />Versions</button>
+        <button className="btn ghost sm" onClick={onReset} title="Replace what's on this page with the plan built into the current code">Load plan template</button>
         {dirty && !firstPublish && <button className="btn ghost sm" onClick={onDiscard}>Discard</button>}
         <button className="btn g sm" disabled={!loadedOk || publishing || !(dirty || firstPublish)} onClick={onPublish}>{publishing ? "Publishing…" : "Publish"}</button>
         <button className="btn ghost sm" onClick={onLock}><Lock size={13} />Lock</button>
@@ -1480,6 +1481,13 @@ export default function App() {
     else setCodeMsg(r.message || "That code wasn't recognised.");
   };
   const lock = () => { setEditing(false); setSel(null); };
+  // Brings the plan written into the code onto the page, so a rebuilt seed can be
+  // published over an older saved document. Nothing changes for the client until Publish.
+  const resetToTemplate = () => {
+    if (!window.confirm("Replace everything on this page with the plan built into the current code? Your unpublished edits are lost; the client sees nothing until you publish.")) return;
+    setState(hydrate(SEED)); setUnpublished(true); setSel(null);
+    flash("Loaded the plan template. Review it, then Publish to make it the client's view.");
+  };
   const discard = () => { if (published) { setState(published); setUnpublished(false); setSel(null); flash("Edits discarded."); } };
   const backup = () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
@@ -1512,6 +1520,7 @@ export default function App() {
           <div className="callout b" style={{ fontSize: 13 }}>This page couldn't reach the saved workplan, so it is showing the starting plan. Reload to try again. If it persists, open <a className="lnk" href="/api/diagnose">/api/diagnose</a>.</div>
         </div>
       )}
+      <div style={{ opacity: loading ? 0.35 : 1, transition: "opacity .2s" }}>
       <Hero project={state.project} stats={stats} />
       <StatStrip stats={stats} />
       <ThisWeek state={state} editing={editing} update={update} />
@@ -1520,6 +1529,7 @@ export default function App() {
       <Workstreams state={state} editing={editing} sel={sel} setSel={setSel} />
       <MochaKey />
       <LogView log={state.log} />
+      </div>
       <footer className="foot">
         <span className="mono">NewWorld × {state.project.clientFull} · {state.project.sow}</span>
         <span className="mono">{state.updatedAt ? `Published ${new Date(state.updatedAt).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}` : "Not yet published"}</span>
@@ -1527,7 +1537,7 @@ export default function App() {
       </footer>
 
       <ActionBar editing={editing} drawerOpen={Boolean(sel)} dirty={dirty} firstPublish={firstPublish} publishing={publishing} unreachable={unreachable} loadedOk={loadedOk}
-        onPublish={publish} onDiscard={discard} onLock={lock} onVersions={openVersions} onBackup={backup} author={author} setAuthor={setAuthor} />
+        onPublish={publish} onDiscard={discard} onLock={lock} onVersions={openVersions} onBackup={backup} onReset={resetToTemplate} author={author} setAuthor={setAuthor} />
 
       {editing && sel && <Editor state={state} sel={sel} setSel={setSel} update={update} />}
 
