@@ -54,10 +54,11 @@ const emptyMocha = () => ({
 const person = (name, org) => ({ name, org });
 
 /* ── calendar ─────────────────────────────────────────────────────────────── */
-// Week 0 is the Monday of the week containing the SOW effective date (Aug 15).
-// Week 18 is the Monday of the week the retrospective is due (Dec 15).
-const PROJECT_START = new Date(2026, 7, 10);
-const WEEK_COUNT = 19;
+// Week 0 is Aug 31, the official project start (internal stand-up week).
+// Workstreams begin in earnest the week of Sep 7. Week 15 is the week the
+// retrospective is due (Dec 15).
+const PROJECT_START = new Date(2026, 7, 31);
+const WEEK_COUNT = 16;
 const TERM_END = new Date(2026, 10, 30);
 const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 const WEEK_DATES = Array.from({ length: WEEK_COUNT }, (_, i) => {
@@ -106,13 +107,13 @@ const SEED = {
     clientFull: "National Domestic Workers Alliance",
     name: "Ask Aya Launch Command Center",
     sow: "SOW 001",
-    term: "August 15 – November 30, 2026",
+    term: "August 31 – November 30, 2026",
     edition: "September 2026",
     lede: "A creator-led Command Center to drive awareness, trust and activation of Ask Aya among unaffiliated domestic workers. Three phases, one always-on team, publish-only updates from NewWorld.",
   },
   weeklyNote: {
-    headline: "Phase 1 research is underway. NDWA's Meta ads tests are running, with results due Sep 17.",
-    body: "Audience research, the content-appetite survey and creator sourcing all started the week of Aug 31. The draft message bank is the one Phase 1 deliverable that depends on a client input: NDWA's Meta ads test results, now due back September 17. Phase 2 (Command Center launch) begins September 14.",
+    headline: "Kickoff is today. Workstreams start in earnest this week, with Meta ads results due Sep 17.",
+    body: "The project started officially on August 31; the first week was NewWorld's internal stand-up. Audience research, the content-appetite survey and creator sourcing begin the week of September 8. The draft message bank is the one Phase 1 deliverable that depends on a client input: NDWA's Meta ads test results, due back September 17. Phase 2 (Command Center launch) begins September 14.",
     author: "NewWorld",
     date: "2026-09-10",
   },
@@ -124,19 +125,20 @@ const SEED = {
   workstreams: [
     {
       id: "ws_research", name: "Research and Stand-Up",
-      summary: "Phase 1 · Aug 30 – Sep 30. What this workforce believes about AI and about NDWA, who reaches them, and what we will say.",
+      summary: "Phase 1 · through Sep 30. Workstreams open the week of Sep 8. What this workforce believes about AI and about NDWA, who reaches them, and what we will say.",
       mocha: mocha(P.joseph, P.sam, [P.ipshita, P.ndOwner], [P.ipshita], P.ndOwner),
       phases: [
-        ph("p_res_1", "Audience research summary", 3, 7, "onTrack",
+        ph("p_res_0", "Internal stand-up", 0, 0, "complete", ["Team, tools and calendar in place before workstreams open"]),
+        ph("p_res_1", "Audience research summary", 1, 4, "onTrack",
           ["Covers NDWA's priority worker segments", "Behavioural definition: what they consume, where, how, why"]),
-        ph("p_res_2", "Content-appetite survey", 3, 7, "onTrack",
+        ph("p_res_2", "Content-appetite survey", 1, 4, "onTrack",
           ["Design, fielding and findings", "Respondent sourcing passed through at cost ($2–3K)"]),
-        ph("p_res_3", "Creator sourcing longlist", 3, 7, "onTrack",
+        ph("p_res_3", "Creator sourcing longlist", 1, 4, "onTrack",
           ["Vetting status by tier: worker-creators, community voices, lifestyle-adjacent", "Content history, brand safety, audience authenticity, disclosure history"]),
-        ph("p_res_4", "Draft message bank", 3, 7, "onTrack",
+        ph("p_res_4", "Draft message bank", 1, 4, "onTrack",
           ["Incorporates NDWA's Meta ads test results (due Sep 17)", "Written natively in English and Spanish"],
           "Depends on the Meta ads results. The SOW allows Phase 2 and 3 to shift if this input is late, with no change to fees."),
-        ph("p_res_5", "Phase 2 workplan and production calendar", 5, 7, "notStarted",
+        ph("p_res_5", "Phase 2 workplan and production calendar", 2, 4, "notStarted",
           ["Governs how the $95K committed creator fund is disbursed"]),
       ],
     },
@@ -145,11 +147,11 @@ const SEED = {
       summary: "The engine. Three tiers, five languages, vetted before contracting. Contracting starts when the committed media fund is received and NDWA has approved the roster.",
       mocha: mocha(P.joseph, P.bcm, [P.ndOwner], [], P.ndOwner),
       phases: [
-        ph("p_cre_1", "Contracted creator roster", 5, 9, "notStarted",
+        ph("p_cre_1", "Contracted creator roster", 2, 6, "notStarted",
           ["NDWA approves the roster before contracting", "Worker-creators · community voices · lifestyle-adjacent creators", "Tagalog, Haitian Creole and Portuguese via creator content"]),
-        ph("p_cre_2", "First creator content published", 5, 9, "notStarted",
+        ph("p_cre_2", "First creator content published", 2, 6, "notStarted",
           ["Green-tier content from the pre-cleared bank publishes without review"]),
-        ph("p_cre_3", "Ongoing production, publication and amplification", 9, 14, "notStarted",
+        ph("p_cre_3", "Ongoing production, publication and amplification", 6, 11, "notStarted",
           ["Phase 3 · Oct 12 – Nov 16", "Amplification coordinated against the production calendar"]),
       ],
     },
@@ -158,12 +160,12 @@ const SEED = {
       summary: "Every asset developed in English and Spanish from the outset. The pre-cleared bank is what makes rapid response possible.",
       mocha: mocha(P.clarence, P.jinah, [P.joseph, P.ndComms], [], P.ndLegal),
       phases: [
-        ph("p_crv_1", "Creative assets in English and Spanish", 5, 9, "notStarted",
+        ph("p_crv_1", "Creative assets in English and Spanish", 2, 6, "notStarted",
           ["Briefed, reviewed and cleared natively in both languages"]),
-        ph("p_crv_2", "Final pre-cleared message bank and rapid-response playbook", 5, 9, "notStarted",
+        ph("p_crv_2", "Final pre-cleared message bank and rapid-response playbook", 2, 6, "notStarted",
           ["Green: pre-cleared, publishes · Amber: 24h, NDWA comms · Red: 72h, leadership and legal",
            "Amber content not returned in 24h is deemed approved; Red requires affirmative approval"]),
-        ph("p_crv_3", "Creative learnings handed to NDWA paid social team", 12, 14, "notStarted",
+        ph("p_crv_3", "Creative learnings handed to NDWA paid social team", 9, 11, "notStarted",
           ["Tested creative and audience insight, in scope not extra", "Paid social itself is NDWA-managed"]),
       ],
     },
@@ -172,11 +174,11 @@ const SEED = {
       summary: "Proactive: saturate the launch message week after week. Reactive: answer skepticism while the doubt is still live.",
       mocha: mocha(P.andre, P.joseph, [P.jinah], [P.bcm], P.ndOwner),
       phases: [
-        ph("p_ops_1", "Operating cadence live", 5, 9, "notStarted",
+        ph("p_ops_1", "Operating cadence live", 2, 6, "notStarted",
           ["Weekly production call · biweekly performance summary · monthly executive check-in"]),
-        ph("p_ops_2", "Social listening and performance dashboard", 5, 9, "notStarted",
+        ph("p_ops_2", "Social listening and performance dashboard", 2, 6, "notStarted",
           ["Comment sentiment tracked, AI skepticism specifically"]),
-        ph("p_ops_3", "Rapid-response coverage against emerging conversation", 9, 14, "notStarted",
+        ph("p_ops_3", "Rapid-response coverage against emerging conversation", 6, 11, "notStarted",
           ["Escalation protocol: pre-drafted holding statements, a named decision-maker on both sides"]),
       ],
     },
@@ -185,21 +187,21 @@ const SEED = {
       summary: "Two required reports, one playbook handoff. Attribution stated honestly: reach and engagement with confidence, activations directionally.",
       mocha: mocha(P.andre, P.joseph, [P.sam], [P.ipshita], P.ndOwner),
       phases: [
-        ph("p_rep_1", "Biweekly performance summaries", 5, 14, "notStarted",
+        ph("p_rep_1", "Biweekly performance summaries", 2, 11, "notStarted",
           ["Runs from Command Center launch to the end of Phase 3"]),
-        ph("p_rep_2", "Mid-campaign performance report", 9, 11, "notStarted",
+        ph("p_rep_2", "Mid-campaign performance report", 6, 8, "notStarted",
           ["SOW §9: delivered in October 2026 — the day is not set", "Media Fund reconciled here"],
           "The SOW gives the month, not the day. The bar shows the second half of October as a working window."),
-        ph("p_rep_3", "Command Center playbook handoff", 13, 14, "notStarted",
+        ph("p_rep_3", "Command Center playbook handoff", 10, 11, "notStarted",
           ["Phase 3 deliverable, due by Nov 16"]),
-        ph("p_rep_4", "End-of-campaign retrospective", 14, 18, "notStarted",
+        ph("p_rep_4", "End-of-campaign retrospective", 11, 15, "notStarted",
           ["Due within 15 days of term end: by Dec 15", "Final Media Fund reconciliation; unspent committed funds credited or refunded"]),
       ],
     },
   ],
   keyDates: [
-    { id: "kd_1", date: "2026-08-15", label: "SOW effective · term begins", owner: "JT", status: "complete", deliverable: true, note: "Term runs Aug 15 – Nov 30, 2026." },
-    { id: "kd_2", date: "2026-08-30", label: "Phase 1 begins · $15K Phase 1 fee invoiced", owner: "NW", status: "complete", deliverable: true, note: "Research and Stand-Up. Survey respondent sourcing ($2–3K) invoiced with this fee." },
+    { id: "kd_1", date: "2026-08-31", label: "Project start · Phase 1 begins · $15K Phase 1 fee invoiced", owner: "JT", status: "complete", deliverable: true, note: "Official start. The first week was NewWorld's internal stand-up; workstreams open the week of Sep 8. Survey respondent sourcing ($2–3K) invoiced with this fee." },
+    { id: "kd_2", date: "2026-09-10", label: "Kickoff meeting", owner: "JT", status: "onTrack", deliverable: true, note: "" },
     { id: "kd_3", date: "2026-09-17", label: "Meta ads test results delivered to NewWorld", owner: "NDWA", status: "onTrack", deliverable: true, note: "Tests are running; results due back Sep 17 (the SOW dated this Sep 1). Phase 2 creative and the message bank depend on this." },
     { id: "kd_4", date: "2026-09-14", label: "Phase 2 begins · Command Center launch · $35K invoiced", owner: "NW", status: "notStarted", deliverable: true, note: "" },
     { id: "kd_5", date: "2026-09-30", label: "Phase 1 deliverables due", owner: "NW", status: "notStarted", deliverable: true, note: "Research summary, survey findings, creator longlist, draft message bank, Phase 2 workplan." },
@@ -215,12 +217,13 @@ const SEED = {
     { id: "kd_15", date: "", label: "Decision: release of the $105K reserve", owner: "NDWA", status: "notStarted", deliverable: false, note: "Decision pending. Written authorization, in whole or part. Can fund creators, amplification, or an OOH/radio addendum." },
   ],
   sessions: [
-    { id: "s_1", label: "Phase 2 launch readiness", week: 5, status: "notStarted", feedbackDue: "", note: "Roster, message bank and cadence ready to go live." },
-    { id: "s_2", label: "Phase 1 findings review", week: 7, status: "notStarted", feedbackDue: "", note: "Research summary and survey findings walked through with NDWA." },
-    { id: "s_3", label: "Phase 3 kickoff and mid-campaign review", week: 9, status: "notStarted", feedbackDue: "", note: "" },
+    { id: "s_0", label: "Kickoff meeting", week: 1, status: "onTrack", feedbackDue: "", note: "Sep 10." },
+    { id: "s_1", label: "Phase 2 launch readiness", week: 2, status: "notStarted", feedbackDue: "", note: "Roster, message bank and cadence ready to go live." },
+    { id: "s_2", label: "Phase 1 findings review", week: 4, status: "notStarted", feedbackDue: "", note: "Research summary and survey findings walked through with NDWA." },
+    { id: "s_3", label: "Phase 3 kickoff and mid-campaign review", week: 6, status: "notStarted", feedbackDue: "", note: "" },
   ],
   constraints: [
-    { id: "c_1", label: "Thanksgiving week", startWeek: 15, endWeek: 15 },
+    { id: "c_1", label: "Thanksgiving week", startWeek: 12, endWeek: 12 },
   ],
   log: [],
 };
@@ -466,7 +469,7 @@ a{color:inherit}
 .tabs{display:flex;gap:22px;justify-content:center}
 .tabs .mono{color:var(--ink);opacity:.35;text-decoration:none}
 .tabs .mono.on{opacity:1}
-.edition{text-align:right}
+.edition{display:flex;justify-content:flex-end;align-items:center;gap:14px}
 .edition .mono{color:var(--ink55)}
 
 /* ── layout ── */
@@ -687,6 +690,7 @@ body.editing{padding-bottom:92px}
 
 @media (max-width:820px){
   .hdr{grid-template-columns:1fr auto;padding:12px var(--pad)}
+  .edition .mono:first-child{display:none}
   .tabs{display:none}
   body{padding-bottom:92px}
   .drawer{padding-bottom:130px}
@@ -714,14 +718,19 @@ const mid = (w) => `${((w + 0.5) / WEEK_COUNT) * 100}%`;
 const span = (s, e) => ({ left: pct(s), width: `calc(${pct(e - s + 1)} - 4px)`, marginLeft: 2 });
 
 /* ── header ── */
-function Header({ project }) {
+function Header({ project, editing, onUnlock, onLock }) {
   return (
     <header className="hdr">
       <a className="logo" href="/"><span className="ring" />NewWorld<span className="x">×</span>{project.client}</a>
       <nav className="tabs">
         <a className="mono on" href="/">Workplan</a>
       </nav>
-      <div className="edition"><span className="mono">{project.edition}</span></div>
+      <div className="edition">
+        <span className="mono">{project.edition}</span>
+        {editing
+          ? <button className="btn sm g" onClick={onLock}><Unlock size={12} />Editing</button>
+          : <button className="btn sm" onClick={onUnlock}><Lock size={12} />Team editing</button>}
+      </div>
     </header>
   );
 }
@@ -911,7 +920,7 @@ function Gantt({ state, editing, sel, setSel, update }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 14, flexWrap: "wrap" }}>
         <div>
           <Eyebrow>Timeline</Eyebrow>
-          <h2>Nineteen weeks, three phases, one chart.</h2>
+          <h2>Sixteen weeks, three phases, one chart.</h2>
           <p className="lede">Sessions and deliverables sit above the scale. Grey bands are weeks with a constraint. A dashed outline behind a bar is where it was originally scheduled.</p>
         </div>
         {editing && (
@@ -1481,7 +1490,7 @@ export default function App() {
   return (
     <>
       <Styles />
-      <Header project={state.project} />
+      <Header project={state.project} editing={editing} onUnlock={() => setModal("unlock")} onLock={lock} />
       {unreachable && !loadedOk && (
         <div className="wrap" style={{ paddingTop: 18 }}>
           <div className="callout b" style={{ fontSize: 13 }}>This page couldn't reach the saved workplan, so it is showing the starting plan. Reload to try again. If it persists, open <a className="lnk" href="/api/diagnose">/api/diagnose</a>.</div>
