@@ -1,6 +1,6 @@
 # Ask Aya Launch Command Center — NDWA workplan
 
-A live, hosted workplan for the NewWorld × NDWA engagement (SOW 001, Aug 15 – Nov 30, 2026).
+A live, hosted workplan for the NewWorld × NDWA engagement (SOW 001, Aug 31, 2026 – Jan 8, 2027).
 Anyone with the link can read it. Only the team can change it, and changes go live only when
 you press **Publish**.
 
